@@ -1,10 +1,12 @@
 (lang dune 3.11)
 
 ; dune-project is the configuration file for the project
+
 (name aoc)
 
 ; Let Dune generate our `aoc.opam` file to let
 ; opam know what what packages to install in our switch.
+
 (generate_opam_files true)
 
 (authors "p1xelHer0")
@@ -25,35 +27,41 @@
  (depends
   ; Compiler version
   (ocaml
-   (>= 5.1.0))
+   (>= 5.2.0))
   ; Build system
   (dune
    (and
     ; Build time dependency - https://opam.ocaml.org/doc/Manual.html#pkgvar-build
     :build
-    (>= 3.11.1)))
+    (>= 3.16.0)))
   ; Parser combinators built for speed and memory-efficiency
   (angstrom
-   (>= 0.15.0))
+   (>= 0.16.0))
   ; A modular, clean and powerful extension of the OCaml standard library
   (containers
-   (>= 3.12))
+   (>= 3.15))
   ; Simple list of suspensions, as a composable lazy iterator that behaves like a value
   (oseq
    (>= 0.5))
   ; Functional Priority Search Queues
   (psq
    (>= 0.2.1))
+  ; 2D maps
+  (grid
+   (>= 0.2.0))
+  ; Graph algorithm
+  (ocamlgraph
+   (>= 2.1.0))
   ; Mainly for ppx_deriving.show
   ; show derives a function that inspects a value; that is, pretty-prints it with OCaml syntax
   (ppx_deriving
-   (>= 5.2.1))
+   (>= 6.0.0))
   ; A lightweight and colourful test framework
   (alcotest
    (and
     ; Test dependency - https://opam.ocaml.org/doc/Manual.html#pkgvar-with-test
     :with-test
-    (>= 1.7.0)))
+    (>= 1.8.0)))
   (ppx_inline_alcotest
    (and
     ; Test dependency
@@ -63,16 +71,16 @@
    (and
     ; Developer tooling - https://opam.ocaml.org/doc/Manual.html#pkgvar-with-dev-setup
     :with-dev-setup
-    (>= 1.16.2)))
+    (>= 1.19.0)))
   ; Code formatter for OCaml
   (ocamlformat
    (and
     ; Developer tooling
     :with-dev-setup
-    (>= 0.26.1)))
+    (>= 0.26.2)))
   ; utop is an improved toplevel (i.e., Read-Eval-Print Loop or REPL) for OCaml
   (utop
    (and
     ; Developer tooling
     :with-dev-setup
-    (>= 2.13.1)))))
+    (>= 2.14.0)))))

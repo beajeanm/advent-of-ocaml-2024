@@ -1,7 +1,7 @@
 (library
  (name solution_02)
  (modules solution_02)
- (libraries aoc angstrom containers oseq)
+ (libraries aoc angstrom containers oseq grid ocamlgraph psq)
  (inline_tests)
  (preprocess
   (pps
