@@ -1,6 +1,6 @@
 # ✨🐫🎄 Advent of OCaml 🎄🐫✨
 
-Let's do some [Advent of Code 2023](https://adventofcode.com/2023/) in [OCaml](https://ocaml.org/)!
+Let's do some [Advent of Code 2024](https://adventofcode.com/2024/) in [OCaml](https://ocaml.org/)!
 
 > [!NOTE]
 > Please open an issue or reach out to me on [Twitter](https://twitter.com/p1xelHer0) or [Mastodon](https://hachyderm.io/@p1xelHer0)
@@ -9,13 +9,13 @@ Let's do some [Advent of Code 2023](https://adventofcode.com/2023/) in [OCaml](h
 ## Leaderboard
 
 > [!TIP]
-> There is an [Advent of OCaml list on Twitter](https://twitter.com/i/lists/1725835790037455203) and a Advent of Code leaderboard by [Sabine](https://twitter.com/sabine_s_):
+> There is an [Advent of OCaml list on Bluesky](https://bsky.app/profile/sabine.sh/lists/3lb7j6q4kjq2w) and a Advent of Code leaderboard by [Sabine](https://bsky.app/profile/sabine.sh):
 >
 > ```
 > 3236051-3f7ecc0b
 > ```
 >
-> https://adventofcode.com/2023/leaderboard/private
+> https://adventofcode.com/2024/leaderboard/private
 
 ## Setup
 
