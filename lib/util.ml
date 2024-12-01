@@ -34,3 +34,5 @@ let rec permutations l =
   match l with
   | [] -> [ l ]
   | hd :: tl -> List.flatten (List.map ~f:(insert hd) (permutations tl))
+
+let sum_list list = List.fold_left ~f:Int.add ~init:0 list
