@@ -33,11 +33,27 @@ module Part_1 = struct
 end
 
 module Part_2 = struct
+  module IntHash = Hashtbl.Make (Int)
+
   let solve input =
     let left, right = parse_input input in
-    (* Nice O(n2) 😬 *)
+    let right_counts = IntHash.create (List.length right) in
+    List.iter
+      ~f:(fun i ->
+        let count =
+          match IntHash.find_opt right_counts i with
+          | None -> 1
+          | Some c -> c + 1
+        in
+        IntHash.replace right_counts i count)
+      right;
     let left_frequencies =
-      List.map ~f:(fun l -> l * List.count ~f:(Int.equal l) right) left
+      List.map
+        ~f:(fun l ->
+          match IntHash.find_opt right_counts l with
+          | None -> 0
+          | Some c -> c * l)
+        left
     in
     Util.sum_list left_frequencies
 
