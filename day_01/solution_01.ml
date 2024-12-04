@@ -27,7 +27,7 @@ module Part_1 = struct
     let left = List.sort ~cmp:Int.compare left in
     let right = List.sort ~cmp:Int.compare right in
     let distances = List.map2 ~f:(fun one two -> abs (one - two)) left right in
-    Util.sum_list distances
+    Util.sum distances
 
   let%test "sample data" = Test.(run int (solve sample) ~expect:11)
 end
@@ -55,7 +55,7 @@ module Part_2 = struct
           | Some c -> c * l)
         left
     in
-    Util.sum_list left_frequencies
+    Util.sum left_frequencies
 
   let%test "sample data" = Test.(run int (solve sample) ~expect:31)
 end

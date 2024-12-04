@@ -46,7 +46,7 @@ module Part_1 = struct
     List.map
       ~f:(function Do -> 0 | Dont -> 0 | Mul (a, b) -> a * b)
       isntructions
-    |> Util.sum_list
+    |> Util.sum
 
   let%test "sample data" = Test.(run int (solve sample) ~expect:161)
 end
