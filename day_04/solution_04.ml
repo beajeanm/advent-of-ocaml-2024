@@ -30,14 +30,6 @@ M.M.M.M.M.
 |}
   |> String.trim
 
-let to_grid line =
-  let chars =
-    String.lines_seq line |> Seq.map String.to_seq |> Seq.map Seq.to_array
-    |> Seq.to_array
-  in
-  let height = Array.length chars and width = Array.length chars.(0) in
-  Grid.init height width (fun (i, j) -> chars.(i).(j))
-
 module Part_1 = struct
   let count_xmas grid =
     let rec find_word word position direction =
@@ -64,7 +56,7 @@ module Part_1 = struct
     Grid.fold find_xmas grid 0
 
   let solve input =
-    let grid = to_grid (String.trim input) in
+    let grid = Util.parse_as_grid (String.trim input) in
     count_xmas grid
 
   let%test "sample data" = Test.(run int (solve sample) ~expect:18)
@@ -98,7 +90,7 @@ module Part_2 = struct
     in
     Grid.fold find_mases grid 0
 
-  let solve input = count_two_mas (to_grid input)
+  let solve input = count_two_mas (Util.parse_as_grid input)
   let%test "sample data" = Test.(run int (solve sample2) ~expect:9)
 end
 

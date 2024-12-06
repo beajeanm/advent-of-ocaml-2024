@@ -1,6 +1,6 @@
 (library
  (name aoc)
- (libraries containers)
+ (libraries containers grid)
  (inline_tests)
  (preprocess
   (pps

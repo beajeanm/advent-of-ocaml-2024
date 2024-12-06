@@ -34,3 +34,23 @@ let rec permutations l =
   match l with
   | [] -> [ l ]
   | hd :: tl -> List.flatten (List.map ~f:(insert hd) (permutations tl))
+
+let parse_as_grid line =
+  let chars =
+    String.lines_seq line |> Seq.map String.to_seq |> Seq.map Seq.to_array
+    |> Seq.to_array
+  in
+  let height = Array.length chars and width = Array.length chars.(0) in
+  Grid.init height width (fun (i, j) -> chars.(i).(j))
+
+module Point = struct
+  type t = int * int
+
+  let compare = Pair.compare Int.compare Int.compare
+  let equal = Pair.equal Int.equal Int.equal
+
+  let pp =
+    Pair.pp Int.pp Int.pp
+      ~pp_start:(fun fmt () -> Format.fprintf fmt "(")
+      ~pp_stop:(fun fmt () -> Format.fprintf fmt ")")
+end
