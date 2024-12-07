@@ -46,11 +46,8 @@ let parse_as_grid line =
 module Point = struct
   type t = int * int
 
-  let compare = Pair.compare Int.compare Int.compare
-  let equal = Pair.equal Int.equal Int.equal
-
-  let pp =
-    Pair.pp Int.pp Int.pp
-      ~pp_start:(fun fmt () -> Format.fprintf fmt "(")
-      ~pp_stop:(fun fmt () -> Format.fprintf fmt ")")
+  let compare = Ord.(pair int int)
+  let equal = Equal.(pair int int)
+  let hash = Hash.(pair int int)
+  let pp = Format.(pair int int)
 end

@@ -23,31 +23,33 @@ let parse input =
     |> List.map ~f:Int.of_string_exn
   in
   let parse_line line =
+    (* @a means scan the string until the first a or the end of input. *)
+    (* It's the only way to make Scanf.sscanf parse white spaces. *)
+    (* @a could be replace by an character we are not expecting.  *)
     Scanf.sscanf line "%i:%s@a" (fun total numbers ->
         { total; numbers = parse_number numbers })
   in
   String.lines input |> List.map ~f:parse_line
 
-let mull_acc = function [] -> [ 1 ] | acc -> acc
-let add_acc = function [] -> [ 0 ] | acc -> acc
+let update_result op new_val = function
+  | [] -> [ new_val ]
+  | xs -> List.map ~f:(fun x -> op x new_val) xs
+
+let is_valid ops equation =
+  let rec loop acc = function
+    | [] -> acc
+    | hd :: tl ->
+        List.map ~f:(fun op -> loop (update_result op hd acc) tl) ops
+        |> List.concat
+  in
+  let tests = loop [] equation.numbers in
+
+  List.find_opt ~f:(Int.equal equation.total) tests |> Option.is_some
 
 module Part_1 = struct
-  let is_valid equation =
-    let tests =
-      List.fold_left ~init:[]
-        ~f:(fun acc x ->
-          List.concat
-            [
-              List.map ~f:(Int.add x) (add_acc acc);
-              List.map ~f:(Int.mul x) (mull_acc acc);
-            ])
-        equation.numbers
-    in
-    List.find_opt ~f:(Int.equal equation.total) tests |> Option.is_some
-
   let solve input =
     let equations = parse input in
-    List.filter ~f:is_valid equations
+    List.filter ~f:(is_valid Int.[ add; mul ]) equations
     |> List.map ~f:(fun e -> e.total)
     |> Util.sum
 
@@ -57,29 +59,9 @@ end
 module Part_2 = struct
   let concatenate a b = Int.of_string_exn (Int.to_string a ^ Int.to_string b)
 
-  let is_valid equation =
-    let rec loop acc numbers =
-      match numbers with
-      | [] -> acc
-      | hd :: tl ->
-          let results_concat =
-            let updated_acc =
-              if List.is_empty acc then [ hd ]
-              else List.map ~f:(fun n -> concatenate n hd) acc
-            in
-            loop updated_acc tl
-          in
-          let result_add = loop (List.map ~f:(Int.add hd) (add_acc acc)) tl in
-          let result_mul = loop (List.map ~f:(Int.mul hd) (mull_acc acc)) tl in
-          List.concat [ results_concat; result_add; result_mul ]
-    in
-    let tests = loop [] equation.numbers in
-
-    List.find_opt ~f:(Int.equal equation.total) tests |> Option.is_some
-
   let solve input =
     let equations = parse input in
-    List.filter ~f:is_valid equations
+    List.filter ~f:(is_valid Int.[ add; mul; concatenate ]) equations
     |> List.map ~f:(fun e -> e.total)
     |> Util.sum
 
