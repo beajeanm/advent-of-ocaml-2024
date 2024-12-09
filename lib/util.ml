@@ -43,6 +43,15 @@ let parse_as_grid line =
   let height = Array.length chars and width = Array.length chars.(0) in
   Grid.init height width (fun (i, j) -> chars.(i).(j))
 
+let pp_list pp =
+  List.pp
+    ~pp_start:(fun fmt () -> Format.fprintf fmt "[")
+    ~pp_stop:(fun fmt () -> Format.fprintf fmt "]")
+    ~pp_sep:(fun fmt () -> Format.fprintf fmt ";")
+    pp
+
+let pp_ints = pp_list Int.pp
+
 module Point = struct
   type t = int * int
 
@@ -50,11 +59,5 @@ module Point = struct
   let equal = Equal.(pair int int)
   let hash = Hash.(pair int int)
   let pp = Format.(pair int int)
-
-  let pp_points =
-    List.pp
-      ~pp_start:(fun fmt () -> Format.fprintf fmt "[")
-      ~pp_stop:(fun fmt () -> Format.fprintf fmt "]")
-      ~pp_sep:(fun fmt () -> Format.fprintf fmt ";")
-      pp
+  let pp_points = pp_list pp
 end
