@@ -24,14 +24,17 @@ Prize: X=18641, Y=10279
 type machine = { a : int * int; b : int * int; prize : int * int }
 [@@deriving show]
 
-let parse input =
+let parse correction_factor input =
   let parse_machine remaining =
     let[@warning "-8"] [ a_str; b_str; prize_str ], remaining =
       List.take_drop 3 remaining
     in
     let a = Scanf.sscanf a_str "Button A: X+%i, Y+%i" Pair.make in
     let b = Scanf.sscanf b_str "Button B: X+%i, Y+%i" Pair.make in
-    let prize = Scanf.sscanf prize_str "Prize: X=%i, Y=%i" Pair.make in
+    let prize =
+      Scanf.sscanf prize_str "Prize: X=%i, Y=%i" Pair.make
+      |> Pair.map_same (Int.add correction_factor)
+    in
     ({ a; b; prize }, List.tail_opt remaining |> Option.value ~default:[])
   in
   let rec loop (machines, remaining) =
@@ -42,7 +45,7 @@ let parse input =
   in
   loop ([], String.lines input)
 
-let find_prize machine =
+let find_prize upper_bond machine =
   let ax, ay = machine.a in
   let bx, by = machine.b in
   let px, py = machine.prize in
@@ -51,21 +54,22 @@ let find_prize machine =
   let b = ((py * ax) - (px * ay)) / det in
   let check_x = (a * ax) + (b * bx) in
   let check_y = (a * ay) + (b * by) in
-  if check_x = px && check_y = py && a >= 0 && a <= 100 && b >= 0 && b <= 100
+  if
+    check_x = px && check_y = py && a >= 0 && a <= upper_bond && b >= 0
+    && b <= upper_bond
   then (3 * a) + b
   else 0
 
 module Part_1 = struct
-  let solve input =
-    let machines = parse input in
-    let prizes = List.map ~f:find_prize machines in
-    prizes |> Util.sum
-
+  let solve input = List.map ~f:(find_prize 100) (parse 1 input) |> Util.sum
   let%test "sample data" = Test.(run int (solve sample) ~expect:480)
 end
 
 module Part_2 = struct
-  let solve input = 0
+  let solve input =
+    List.map ~f:(find_prize Int.max_int) (parse 10000000000000 input)
+    |> Util.sum
+
   let%test "sample data" = Test.(run int (solve sample) ~expect:0)
 end
 
@@ -74,5 +78,5 @@ let run_1 () =
   ()
 
 let run_2 () =
-  (* Run.solve_int (module Part_2); *)
+  Run.solve_int (module Part_2);
   ()
